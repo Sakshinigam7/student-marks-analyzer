@@ -10,7 +10,6 @@ student performance using statistical operations.
 """
 import numpy as np
 def main():
-
     """
     Main entry point of the Student Marks Analyzer project.
 
@@ -22,6 +21,7 @@ def main():
     # creating array roll_numbers
     roll_numbers = np.arange(101, 111)
     print(f"Roll Numbers: {roll_numbers}")
+    
 
     # Creating an array of student names.
     names = np.array([
@@ -37,6 +37,7 @@ def main():
         "Riya"
     ])
     print(f"Student Names: {names}")
+    
 
     subjects = np.array([
         "maths",
@@ -83,6 +84,68 @@ def display_dataset_info(marks: np.ndarray) -> None:
     print(f"Dimension of marks: {marks.ndim}D")
     print(f"DataType of marks: {marks.dtype}")
     print(f"Size of marks: {marks.size}")
+
+def display_dataset(
+    roll_numbers: np.ndarray,
+    names: np.ndarray,
+    marks: np.ndarray
+) -> None:
+    """
+    Display the complete student dataset.
+
+    Parameters:
+    roll_numbers (numpy.ndarray):
+        A 1D array containing the roll numbers of all students.
+
+    names (numpy.ndarray):
+        A 1D array containing the names of all students.
+
+    marks (numpy.ndarray):
+        A 2D array containing the marks of all students.
+
+    Displays:
+    - Roll numbers
+    - Student names
+    - Marks matrix
+    """
+
+def explore_dataset(
+    names: np.ndarray,
+    marks: np.ndarray
+) -> None:
+    """
+    Explore the student dataset by displaying basic information.
+
+    Parameters:
+    names (numpy.ndarray):
+        A 1D array containing the names of all students.
+
+    marks (numpy.ndarray):
+        A 2D array containing the marks of all students.
+
+    Displays:
+    - Total number of students
+    - Total number of subjects
+    - First student's name and marks
+    - Last student's name and marks
+    """
+
+def calculate_total_marks(
+    marks: np.ndarray
+): 
+    """
+    Calculate the total marks obtained by each student.
+
+    Parameters: 
+        marks: A 2D NumPy array where each row represents
+               a student's marks in all subjects.
+
+    Returns:
+        A 1D NumPy array containing the total marks of each student.
+    """
+
+    marks.sum(axis=1)
+
 
 if __name__ == "__main__":
     main()
