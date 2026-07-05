@@ -9,6 +9,8 @@ A beginner-friendly NumPy project for analyzing
 student performance using statistical operations.
 """
 import numpy as np
+
+
 def main():
     """
     Main entry point of the Student Marks Analyzer project.
@@ -18,9 +20,8 @@ def main():
     and basic information about the marks array.
     """
 
-    # creating array roll_numbers
+    # create an array of student roll_numbers
     roll_numbers = np.arange(101, 111)
-    print(f"Roll Numbers: {roll_numbers}")
     
 
     # Creating an array of student names.
@@ -36,7 +37,7 @@ def main():
         "Neha",
         "Riya"
     ])
-    print(f"Student Names: {names}")
+    
     
 
     subjects = np.array([
@@ -46,7 +47,7 @@ def main():
         "english",
         "computer"
     ])
-    print(f"subjects: \n{subjects}")
+    
 
     # Subject order:
     # Maths, Physics, Chemistry, English, Computer
@@ -62,8 +63,14 @@ def main():
         [64, 67, 65, 70, 68],  # Neha
         [93, 90, 94, 92, 95]   # Riya
     ])
-    print(f"Student Marks:\n{marks}")
+    
+
     display_dataset_info(marks)
+    display_student_dataset(roll_numbers,names,marks,subjects)
+    explore_dataset(names,marks)
+    calculate_total_marks(marks)
+
+    
 
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -85,9 +92,10 @@ def display_dataset_info(marks: np.ndarray) -> None:
     print(f"DataType of marks: {marks.dtype}")
     print(f"Size of marks: {marks.size}")
 
-def display_dataset(
+def display_student_dataset(
     roll_numbers: np.ndarray,
     names: np.ndarray,
+    subjects: np.ndarray,
     marks: np.ndarray
 ) -> None:
     """
@@ -103,15 +111,26 @@ def display_dataset(
     marks (numpy.ndarray):
         A 2D array containing the marks of all students.
 
+    subjects (numpy.ndarray):
+        A 1D array containing the all the subjects.    
+
     Displays:
     - Roll numbers
     - Student names
     - Marks matrix
+    - Subject names
     """
+    print("========== STUDENT DATA ==========")
+    print(f"Roll Numbers: {roll_numbers}")
+    print(f"Student Names: {names}")
+    print(f"subjects: \n{subjects}")
+    print(f"Student Marks:\n{marks}")
+    
 
 def explore_dataset(
     names: np.ndarray,
     marks: np.ndarray
+    
 ) -> None:
     """
     Explore the student dataset by displaying basic information.
@@ -129,6 +148,17 @@ def explore_dataset(
     - First student's name and marks
     - Last student's name and marks
     """
+    print("\n========== DATASET OVERVIEW ==========\n")
+    print(f"TOTAL STUDENTS: {names.size}")
+    print(f"TOTAL SUBJECTS: {marks.shape[1]}\n")
+
+    print("FIRST STUDENT: {names[0]}")
+    print("MARKS: {marks[0]}\n")
+
+    print("LAST STUDENT: {names[-1]}")
+    print("MARKS: {marks[-1]}\n")
+
+
 
 def calculate_total_marks(
     marks: np.ndarray
@@ -145,6 +175,8 @@ def calculate_total_marks(
     """
 
     marks.sum(axis=1)
+
+
 
 
 if __name__ == "__main__":
