@@ -31,7 +31,7 @@ def main():
         "Aman",
         "Priya",
         "Rahul",
-        "Anjali",
+        "Jitesh",
         "Arjun",
         "Yash",
         "Karan",
@@ -56,7 +56,7 @@ def main():
         [82, 76, 85, 80, 79],  # Aman
         [91, 94, 89, 95, 92],  # Priya
         [68, 72, 70, 66, 74],  # Rahul
-        [98, 96, 97, 99, 100], # Anjali
+        [98, 96, 97, 99, 100], # Jitesh
         [78, 81, 76, 83, 80],  # Arjun
         [87, 89, 91, 88, 90],  # Yash
         [73, 69, 75, 71, 72],  # Karan
@@ -77,6 +77,11 @@ def main():
     show_student_marks(marks,names,"sakshi".capitalize())
     # Display marks of a particular subject for all the students.
     show_subject_marks(marks,subjects,names,"physics".lower())
+    # Display the marks obtained by a specific student in a specific subject.
+    show_student_subject_marks(names,subjects,marks,"Jitesh","maths")
+    # Display the marks of a range of students.
+    show_details_consecutive_students(names,marks,"Aman","Neha")
+
     
 
 def display_dataset_info(marks: np.ndarray) -> None:
@@ -95,10 +100,10 @@ def display_dataset_info(marks: np.ndarray) -> None:
     """
     print("==== MARKS DETAILS ====")
     # printing marks shape, dimension, datatype, size(number of items)
-    print(f"Shape of marks: {marks.shape}")
-    print(f"Dimension of marks: {marks.ndim}D")
-    print(f"DataType of marks: {marks.dtype}")
-    print(f"Size of marks: {marks.size}")
+    print(f"Shape     : {marks.shape}")
+    print(f"Dimension : {marks.ndim}")
+    print(f"DataType  : {marks.dtype}")
+    print(f"Size      : {marks.size}")
 
 
 def display_student_dataset(
@@ -307,11 +312,136 @@ def show_subject_marks(
         print("==INVALID SUBJECT==")
 
 
+def show_student_subject_marks(
+    names: np.ndarray,
+    subjects: np.ndarray,
+    marks: np.ndarray,
+    student_name: str,
+    subject_name: str
+
+) -> None:
+    """
+    Display the marks obtained by a specific student in a specific subject.
+
+    Parameters:
+    names (numpy.ndarray):
+        A 1D NumPy array containing the names of all students.
+
+    subjects (numpy.ndarray):
+        A 1D NumPy array containing the subject names.
+
+    marks (numpy.ndarray):
+        A 2D NumPy array containing the marks of all students.
+
+    name_of_student (str):
+        The name of the student.
+
+    subject_name (str):
+        The name of the subject.
+
+    Displays:
+    - Student name
+    - Subject name
+    - Marks obtained in the selected subject
+
+    If the student or subject does not exist in the dataset, an error message is displayed.
+    """
+
+    print("\n========== STUDENT SUBJECT MARK ==========\n")
+    # Check whether the student exists.
+    if student_name not in names:
+        print("\n== INVALID STUDENT ==")
+        return
+
+    # Check whether the subject exists
+    if subject_name not in subjects:
+        print("\n== INVALID SUBJECT ==") 
+        return
+   
+    # Find the row index of the selected student.
+    student_index = np.where(student_name == names)[0][0]
+
+    # Find the column index of the selected subject.
+    subject_index = np.where(subject_name == subjects)[0][0]
+
+    print(f"Student: {names[student_index]}")
+    print(f"Subject: {subjects[subject_index]}")
+    print(f"Marks  : {marks[student_index,subject_index]}")
+
+
+def show_details_consecutive_students(
+    names: np.ndarray,
+    marks: np.ndarray,
+    start_student: str,
+    end_student: str
+
+) -> None:
+    """
+    Display the marks of a range of students.
+
+    Parameters:
+    names (numpy.ndarray):
+        A 1D NumPy array containing the names of all students.
+
+    marks (numpy.ndarray):
+        A 2D NumPy array containing the marks of all students.
+
+    start_student_name (str):
+        The name of the first student in the range.
+
+    end_student_name (str):
+        The name of the last student in the range.
+
+    Displays:
+    - Student names within the specified range
+    - Marks obtained by each student in all subjects
+
+    If either student does not exist in the dataset or the start student
+    comes after the end student, an appropriate error message is displayed.
+    """
+     
+    print("\n======MARKS OF CONSECUTIVE STUDENTS======\n")
+
+    # Check whether the start_student exists.
+    if start_student not in names:
+        print("\n====INVALID START STUDENT====\n")
+        return
+
+    # Check whether the end_student exists.
+    if end_student not in names:
+        print("\n====INVALID END STUDENT====\n")
+        return
+
+    # Find the index of the first student.
+    start_student_index = np.where(start_student == names)[0][0]
+
+    # Find the index of the end student.
+    end_student_index = np.where(end_student == names)[0][0]
+
+    # Validate the order
+    if start_student_index > end_student_index:
+        print("The start student must come before the end student.")
+        return
+
+    #slicing of arrays
+    names_of_students = names[start_student_index : end_student_index +1 ]
+    marks_of_students = marks[start_student_index : end_student_index +1 ]
+
+    print("\n====CONSECUTIVE STUDENTS====\n")
+
+    for i in range(marks_of_students.shape[0]):
+        print(f"Student : {names_of_students[i]}")
+        print(f"Marks   : {marks_of_students[i]}\n")
 
 
 
 
 
+
+
+
+
+            
 
 
 
