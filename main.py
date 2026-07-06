@@ -8,6 +8,7 @@ Description:
 A beginner-friendly NumPy project for analyzing
 student performance using statistical operations.
 """
+
 import numpy as np
 
 
@@ -38,7 +39,6 @@ def main():
         "Riya"
     ])
     
-    
 
     subjects = np.array([
         "maths",
@@ -65,12 +65,18 @@ def main():
     ])
     
 
+    # Display basic information about the marks dataset.
     display_dataset_info(marks)
+    # Display the complete student dataset.
     display_student_dataset(roll_numbers,names,subjects,marks)
+    # Display a summary of the dataset.
     explore_dataset(names,marks)
+    # Calculate and display total marks for every student.
     calculate_total_marks(marks,names)
+    # Search and display marks of a particular student.
     show_student_marks(marks,names,"sakshi".capitalize())
-
+    # Display marks of a particular subject for all the students.
+    show_subject_marks(marks,subjects,names,"physics".lower())
     
 
 def display_dataset_info(marks: np.ndarray) -> None:
@@ -93,6 +99,7 @@ def display_dataset_info(marks: np.ndarray) -> None:
     print(f"Dimension of marks: {marks.ndim}D")
     print(f"DataType of marks: {marks.dtype}")
     print(f"Size of marks: {marks.size}")
+
 
 def display_student_dataset(
     roll_numbers: np.ndarray,
@@ -122,6 +129,7 @@ def display_student_dataset(
     - Marks matrix
     - Subject names
     """
+    #Display roll_numbers,names,subjects and marks of all students
     print("========== STUDENT DATA ==========")
     print(f"Roll Numbers: {roll_numbers}")
     print(f"Student Names: {names}")
@@ -150,22 +158,24 @@ def explore_dataset(
     - First student's name and marks
     - Last student's name and marks
     """
+    ## Display total number of students and subjects.
     print("\n========== DATASET OVERVIEW ==========\n")
     print(f"TOTAL STUDENTS: {names.shape[0]}")
     print(f"TOTAL SUBJECTS: {marks.shape[1]}\n")
 
+    # Display details of the first student.
     print(f"FIRST STUDENT: {names[0]}")
     print(f"MARKS: {marks[0]}\n")
 
+    # Display details of the last student.
     print(f"LAST STUDENT: {names[-1]}")
     print(f"MARKS: {marks[-1]}\n")
-
 
 
 def calculate_total_marks(
     marks: np.ndarray,
     names: np.ndarray
-): 
+) -> np.ndarray:
     """
     Calculate and display the total marks obtained by each student.
 
@@ -192,23 +202,25 @@ def calculate_total_marks(
 
     print("\n========== TOTAL MARKS ==========")
 
+    # Display the total marks of every student.
     for i in range(len(names)):
         print(f"{names[i]:<10} : {total_marks[i]}")
 
     print()
 
-    print("==maximum marks==")
+    print("====MAXIMUM MARKS====")
+    # Find the index of the student with the highest total marks.
     topper = np.argmax(total_marks)
+    # Display the topper's name.
     print(f"TOPPER: {names[topper]}\n")
 
     return total_marks
     
 
-
 def show_student_marks(
     marks: np.ndarray,
     names: np.ndarray,
-    name_of_student:str
+    student_name: str
 
 ) -> None:
     """
@@ -221,7 +233,7 @@ def show_student_marks(
     marks (numpy.ndarray):
         A 2D NumPy array containing the marks of all students.
 
-    name_of_student (str):
+    student_name (str):
         The name of the student whose marks are to be displayed.
 
     Displays:
@@ -233,18 +245,67 @@ def show_student_marks(
     print("========== STUDENT MARKS ==========")
     
     #Check whether the student exists in the dataset.
-    if name_of_student in names:
+    if student_name in names:
         #finding the index of student_name
-        index = np.where(name_of_student == names)[0][0]
+        index = np.where(student_name == names)[0][0]
 
         #using index for getting marks_of_student
         print("==STUDENT FOUND==\n")
-        print(f"name of student: {name_of_student}\n")
+        print(f"name of student: {student_name}\n")
         print(f"marks: {marks[index]}")
 
     #if student_name not found then:
     else:
-        print("\n==STUDENT NOT FOUND==")
+        print("\n==INVALID STUDENT==")
+
+
+def show_subject_marks(
+    marks: np.ndarray,
+    subjects: np.ndarray,
+    names: np.ndarray,
+    subject_name: str
+
+) -> None:
+    """
+    Display the marks obtained by all students in a specified subject.
+
+    Parameters:
+    marks (numpy.ndarray):
+        A 2D NumPy array containing the marks of all students
+        in all subjects.
+
+    subjects (numpy.ndarray):
+        A 1D NumPy array containing the names of all subjects.
+
+    names (numpy.ndarray):
+        A 1D NumPy array containing the names of all students.
+
+    subject_name (str):
+        The name of the subject whose marks are to be displayed.
+
+    Displays:
+    - The subject name.
+    - The marks obtained by every student in the specified subject.
+
+    If the subject does not exist in the dataset,
+    an appropriate error message is displayed.
+    """
+
+    print("\n========== SUBJECT MARKS ==========\n")
+    
+    #Check whether the subject exists in the dataset.
+    if subject_name in subjects:
+        # Find the column index of the selected subject.
+        subject_index = np.where(subject_name == subjects)[0][0]
+        print("==SUBJECT FOUND==")
+        print(f"subject: {subject_name}\n")
+        
+        for i in range(marks.shape[0]):
+            print(f"{names[i]:<10} : {marks[i,subject_index]}")
+
+    else:
+        print("==INVALID SUBJECT==")
+
 
 
 
