@@ -85,6 +85,8 @@ def main():
     show_subjects_range(subjects,names,marks,"maths","chemistry")
     # Display the marks of a consecutive range of students for a consecutive range of subjects.
     show_consecutive_student_subject_marks(names,subjects,marks,"Priya","Yash","physics","english")
+    # Display statistical information for a specific student.
+    student_statistics(names,marks,"Sakshi")
 
     
 def display_dataset_info(marks: np.ndarray) -> None:
@@ -220,7 +222,10 @@ def calculate_total_marks(
     # Find the index of the student with the highest total marks.
     topper = np.argmax(total_marks)
     # Display the topper's name.
-    print(f"TOPPER: {names[topper]}\n")
+    print(f"TOPPER: {names[topper]} : {total_marks.max()}\n")
+
+
+
 
     return total_marks
     
@@ -593,16 +598,86 @@ def show_consecutive_student_subject_marks(
         print("The start subject must come before the end subject.")
         return
 
-    # Slice the required students, subjects, and marks.
+    # Slice the required students,marks and subjects.
     names_of_students = names[start_student_index : end_student_index +1 ]
-    marks_of_students = marks[start_student_index : end_student_index +1,start_subject_index : end_subject_index +1]
+    selected_marks = marks[start_student_index : end_student_index +1,start_subject_index : end_subject_index +1]
     range_of_subjects = subjects[start_subject_index : end_subject_index +1]
 
     
     print(f"\nSUBJECTS: {range_of_subjects}")
 
     for i in range(names_of_students.shape[0]):
-        print(f"{names_of_students[i]:<12}: {marks_of_students[i]}")
+        print(f"{names_of_students[i]:<12}: {selected_marks[i]}")
+
+
+def student_statistics(
+    names : np.ndarray,
+    marks : np.ndarray,
+    student_name: str
+
+) -> None:
+    """
+    Display statistical information for a specific student.
+
+    Parameters:
+        names (numpy.ndarray):
+            A 1D NumPy array containing the names of all students.
+
+        marks (numpy.ndarray):
+            A 2D NumPy array containing the marks of all students.
+
+        student_name (str):
+            The name of the student whose statistics are to be displayed.
+
+    Displays:
+        - Student name
+        - Marks in all subjects
+        - Total marks
+        - Average marks
+        - Highest mark
+        - Lowest mark
+        - Median
+        - Standard deviation
+        - Variance
+
+    If the student does not exist in the dataset, an error message is displayed.
+    """
+     
+    print("\n========== STUDENT STATISTICS ==========\n")
+
+    # Check whether the student_name exists.
+    if student_name not in names:
+        print("\n====INVALID STUDENT====\n")
+        return
+    
+    # Find the index of the student.
+    student_index = np.where(student_name == names)[0][0]
+
+    # Extract the marks of the selected student.
+    student_marks = marks[student_index]
+
+    # Print the student's name.
+    print(f"STUDENT: {names[student_index]}\n")
+    # Print the student's marks.
+    print(f"MARKS: {student_marks}\n")
+
+    # Calculate and display the total marks.
+    print(f"TOTAL: {np.sum(student_marks)}\n")
+    # Calculate and display the average marks.
+    print(f"AVERAGE: {np.mean(student_marks):.2f}\n")
+    # Display the highest mark.
+    print(f"HIGHEST: {np.max(student_marks)}\n")
+    # Display the lowest mark.
+    print(f"LOWEST: {np.min(student_marks)}\n")
+    # Display the median mark.
+    print(f"MEDIAN: {np.median(student_marks):.2f}\n")
+    # Display the standard deviation.
+    print(f"STD_DEV: {np.std(student_marks):.2f}\n")
+    # Display the variance.
+    print(f"VARIANCE: {np.var(student_marks):.2f}\n")
+
+    
+
 
 
         
