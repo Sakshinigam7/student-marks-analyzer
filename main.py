@@ -86,7 +86,9 @@ def main():
     # Display the marks of a consecutive range of students for a consecutive range of subjects.
     show_consecutive_student_subject_marks(names,subjects,marks,"Priya","Yash","physics","english")
     # Display statistical information for a specific student.
-    student_statistics(names,marks,"Sakshi")
+    show_student_statistics(names,marks,"Sakshi")
+    # Display statistical information for a specific subject.
+    show_subject_statistics(subjects,marks,"english")
 
     
 def display_dataset_info(marks: np.ndarray) -> None:
@@ -263,13 +265,13 @@ def show_student_marks(
         index = np.where(student_name == names)[0][0]
 
         #using index for getting marks_of_student
-        print("==STUDENT FOUND==\n")
+        print("====STUDENT FOUND====\n")
         print(f"name of student: {student_name}\n")
         print(f"marks: {marks[index]}")
 
     #if student_name not found then:
     else:
-        print("\n==INVALID STUDENT==")
+        print("\n====INVALID STUDENT====")
 
 
 def show_subject_marks(
@@ -310,14 +312,14 @@ def show_subject_marks(
     if subject_name in subjects:
         # Find the column index of the selected subject.
         subject_index = np.where(subject_name == subjects)[0][0]
-        print("==SUBJECT FOUND==")
+        print("====SUBJECT FOUND====")
         print(f"subject: {subject_name}\n")
         
         for i in range(marks.shape[0]):
             print(f"{names[i]:<10} : {marks[i,subject_index]}")
 
     else:
-        print("==INVALID SUBJECT==")
+        print("====INVALID SUBJECT====")
 
 
 def show_student_subject_marks(
@@ -363,7 +365,7 @@ def show_student_subject_marks(
 
     # Check whether the subject exists
     if subject_name not in subjects:
-        print("\n== INVALID SUBJECT ==") 
+        print("\n==== INVALID SUBJECT ====") 
         return
    
     # Find the row index of the selected student.
@@ -610,9 +612,9 @@ def show_consecutive_student_subject_marks(
         print(f"{names_of_students[i]:<12}: {selected_marks[i]}")
 
 
-def student_statistics(
-    names : np.ndarray,
-    marks : np.ndarray,
+def show_student_statistics(
+    names: np.ndarray,
+    marks: np.ndarray,
     student_name: str
 
 ) -> None:
@@ -676,16 +678,82 @@ def student_statistics(
     # Display the variance.
     print(f"VARIANCE: {np.var(student_marks):.2f}\n")
 
+
+def show_subject_statistics(
+    subjects: np.ndarray,
+    marks: np.ndarray,
+    subject_name: str
+) -> None: 
+    """
+    Display statistical information for a specific subject.
+
+    Parameters:
+        
+        subjects (numpy.ndarray):
+            A 1D NumPy array containing the names of all subjects.
+
+        marks (numpy.ndarray):
+            A 2D NumPy array containing the marks of all students.
+
+        subject_name (str):
+            The name of the subject whose statistics are to be displayed.
+
+    Displays:
+        - Subject name
+        - Marks obtained by all students in the selected subject
+        - Total marks
+        - Average marks
+        - Highest mark
+        - Lowest mark
+        - Median
+        - Standard deviation
+        - Variance
+
+    If the subject does not exist in the dataset, an appropriate error
+    message is displayed.
+    """
+
+    print("\n========== SUBJECT STATISTICS ==========\n")
+
+    # Check whether the subject_name exists.
+    if subject_name not in subjects:
+        print("\n====INVALID SUBJECT====\n")
+        return
+    
+    # Find the index of the student.
+    subject_index = np.where(subject_name == subjects)[0][0]
+
+    # Extract the marks of the selected subject.
+    subject_marks = marks[: ,subject_index]
+
+    # Print the subject's name.
+    print(f"SUBJECT: {subjects[subject_index]}\n")
+    # Print the subject's marks.
+    print(f"MARKS: {subject_marks}\n")
+
+    # Calculate and display the total marks.
+    print(f"TOTAL: {np.sum(subject_marks)}\n")
+    # Calculate and display the average marks.
+    print(f"AVERAGE: {np.mean(subject_marks):.2f}\n")
+    # Display the highest mark.
+    print(f"HIGHEST: {np.max(subject_marks)}\n")
+    # Display the lowest mark.
+    print(f"LOWEST: {np.min(subject_marks)}\n")
+    # Display the median mark.
+    print(f"MEDIAN: {np.median(subject_marks):.2f}\n")
+    # Display the standard deviation.
+    print(f"STD_DEV: {np.std(subject_marks):.2f}\n")
+    # Display the variance.
+    print(f"VARIANCE: {np.var(subject_marks):.2f}\n")
+
+
+
+
     
 
 
 
         
-
-
-
-
-
 
 
 if __name__ == "__main__":
