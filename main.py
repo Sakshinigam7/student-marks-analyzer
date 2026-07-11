@@ -92,7 +92,9 @@ def main():
     # Display overall statistical information for the entire class.
     show_class_statistics(names,subjects,marks)
     # Display the ranking of all students based on their total marks.
-    show_student_rank(names,marks)
+    show_student_ranking(names,marks)
+    # Display the topper and the weakest-scoring student based on total marks.
+    show_topper_weakest_student(names,marks)
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -784,7 +786,7 @@ def show_class_statistics(
     print(f"VARIANCE: {np.var(marks):.2f}")
 
 
-def show_student_rank(
+def show_student_ranking(
     names: np.ndarray,
     marks: np.ndarray,
 
@@ -822,6 +824,44 @@ def show_student_rank(
         print(f"{rank:>2}. {names[index]:<10} : {student_total[index]}")
 
 
+def show_topper_weakest_student(
+    names: np.ndarray,
+    marks: np.ndarray
+) -> None: 
+    """
+    Display the topper and the weakest-scoring student based on total marks.
+
+    Parameters:
+        names (numpy.ndarray):
+            A 1D NumPy array containing the names of all students.
+
+        marks (numpy.ndarray):
+            A 2D NumPy array containing the marks of all students.
+
+    Displays:
+        - Topper's name
+        - Topper's total marks
+        - Weakest student's name
+        - Weakest student's total marks
+    """
+    print("\n========== TOPPER & WEAKEST STUDENT ==========\n")
+
+    # Reusing the existing function for total marks.
+    student_total = calculate_total_marks(marks,names,display = False)
+
+    # Find the index of the topper.
+    topper_index = np.argmax(student_total)
+
+    # Find the index of the weakest.
+    weakest_index = np.argmin(student_total)
+
+    print("TOPPER\n------")
+    print(f"Name        : {names[topper_index]}")
+    print(f"Total Marks : {student_total[topper_index]}")
+
+    print("\nWEAKEST\n------")
+    print(f"Name        : {names[weakest_index]}")
+    print(f"Total Marks : {student_total[weakest_index]}")
 
 
 
