@@ -80,7 +80,7 @@ def main():
     # Display the marks obtained by a specific student in a specific subject.
     show_student_subject_marks(names,subjects,marks,"Jitesh","maths")
     # Display the marks of a range of students.
-    show_details_consecutive_students(names,marks,"Aman","Neha")
+    show_consecutive_students(names,marks,"Aman","Neha")
     # Display the marks of all students for a selected range of subjects.
     show_subjects_range(subjects,names,marks,"maths","chemistry")
     # Display the marks of a consecutive range of students for a consecutive range of subjects.
@@ -89,7 +89,8 @@ def main():
     show_student_statistics(names,marks,"Sakshi")
     # Display statistical information for a specific subject.
     show_subject_statistics(subjects,marks,"english")
-
+    # Display overall statistical information for the entire class.
+    show_class_statistics(names,subjects,marks)
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -266,7 +267,7 @@ def show_student_marks(
 
         #using index for getting marks_of_student
         print("====STUDENT FOUND====\n")
-        print(f"name of student: {student_name}\n")
+        print(f"name of student: {names[index]}\n")
         print(f"marks: {marks[index]}")
 
     #if student_name not found then:
@@ -360,7 +361,7 @@ def show_student_subject_marks(
     print("\n========== STUDENT SUBJECT MARK ==========\n")
     # Check whether the student exists.
     if student_name not in names:
-        print("\n== INVALID STUDENT ==")
+        print("\n==== INVALID STUDENT ====")
         return
 
     # Check whether the subject exists
@@ -379,7 +380,7 @@ def show_student_subject_marks(
     print(f"Marks  : {marks[student_index,subject_index]}")
 
 
-def show_details_consecutive_students(
+def show_consecutive_students(
     names: np.ndarray,
     marks: np.ndarray,
     start_student: str,
@@ -664,19 +665,19 @@ def show_student_statistics(
     print(f"MARKS: {student_marks}\n")
 
     # Calculate and display the total marks.
-    print(f"TOTAL: {np.sum(student_marks)}\n")
+    print(f"TOTAL: {np.sum(student_marks)}")
     # Calculate and display the average marks.
-    print(f"AVERAGE: {np.mean(student_marks):.2f}\n")
+    print(f"AVERAGE: {np.mean(student_marks):.2f}")
     # Display the highest mark.
-    print(f"HIGHEST: {np.max(student_marks)}\n")
+    print(f"HIGHEST: {np.max(student_marks)}")
     # Display the lowest mark.
-    print(f"LOWEST: {np.min(student_marks)}\n")
+    print(f"LOWEST: {np.min(student_marks)}")
     # Display the median mark.
-    print(f"MEDIAN: {np.median(student_marks):.2f}\n")
+    print(f"MEDIAN: {np.median(student_marks):.2f}")
     # Display the standard deviation.
-    print(f"STD_DEV: {np.std(student_marks):.2f}\n")
+    print(f"STD_DEV: {np.std(student_marks):.2f}")
     # Display the variance.
-    print(f"VARIANCE: {np.var(student_marks):.2f}\n")
+    print(f"VARIANCE: {np.var(student_marks):.2f}")
 
 
 def show_subject_statistics(
@@ -732,19 +733,66 @@ def show_subject_statistics(
     print(f"MARKS: {subject_marks}\n")
 
     # Calculate and display the total marks.
-    print(f"TOTAL: {np.sum(subject_marks)}\n")
+    print(f"TOTAL: {np.sum(subject_marks)}")
     # Calculate and display the average marks.
-    print(f"AVERAGE: {np.mean(subject_marks):.2f}\n")
+    print(f"AVERAGE: {np.mean(subject_marks):.2f}")
     # Display the highest mark.
-    print(f"HIGHEST: {np.max(subject_marks)}\n")
+    print(f"HIGHEST: {np.max(subject_marks)}")
     # Display the lowest mark.
-    print(f"LOWEST: {np.min(subject_marks)}\n")
+    print(f"LOWEST: {np.min(subject_marks)}")
     # Display the median mark.
-    print(f"MEDIAN: {np.median(subject_marks):.2f}\n")
+    print(f"MEDIAN: {np.median(subject_marks):.2f}")
     # Display the standard deviation.
-    print(f"STD_DEV: {np.std(subject_marks):.2f}\n")
+    print(f"STD_DEV: {np.std(subject_marks):.2f}")
     # Display the variance.
-    print(f"VARIANCE: {np.var(subject_marks):.2f}\n")
+    print(f"VARIANCE: {np.var(subject_marks):.2f}")
+
+
+def show_class_statistics(
+    names: np.ndarray,
+    subjects: np.ndarray,
+    marks: np.ndarray,
+    
+) -> None:
+    """
+    Display overall statistical information for the entire class.
+
+    Parameters:
+        marks (numpy.ndarray):
+            A 2D NumPy array containing the marks of all students.
+
+    Displays:
+        - Total number of students
+        - Total number of subjects
+        - Overall average marks
+        - Highest mark
+        - Lowest mark
+        - Median
+        - Standard deviation
+        - Variance
+    """
+    
+    print("\n =====CLASS STATITICS===== \n")
+    # Display total no of students
+    print(f"TOTAL STUDENTS: {names.shape[0]}")
+    # Display total no of subjects
+    print(f"TOTAL SUBJECTS: {subjects.shape[0]}")
+    # Calculate and display the overall average marks.
+    print(f"OVERALL AVERAGE: {np.mean(marks):.2f}")
+    # Display the highest mark.
+    print(f"HIGHEST MARKS: {np.max(marks)}")
+    # Display the lowest mark.
+    print(f"LOWEST MARKS: {np.min(marks)}")
+    # Display the median mark.
+    print(f"MEDIAN: {np.median(marks)}")
+    # Display the standard deviation.
+    print(f"STANDARD DEVIATION: {np.std(marks):.2f}")
+    # Display the variance.
+    print(f"VARIANCE: {np.var(marks):.2f}")
+
+
+    
+    
 
 
 
