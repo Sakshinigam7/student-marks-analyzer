@@ -91,6 +91,8 @@ def main():
     show_subject_statistics(subjects,marks,"english")
     # Display overall statistical information for the entire class.
     show_class_statistics(names,subjects,marks)
+    # Display the ranking of all students based on their total marks.
+    show_student_rank(names,marks)
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -106,7 +108,7 @@ def display_dataset_info(marks: np.ndarray) -> None:
         - Data type
         - Total number of elements
     """
-    print("==== MARKS DETAILS ====")
+    print("\n====== MARKS DETAILS ======\n")
     # printing marks shape, dimension, datatype, size(number of items)
     print(f"Shape     : {marks.shape}")
     print(f"Dimension : {marks.ndim}")
@@ -143,7 +145,7 @@ def display_student_dataset(
     - Subject names
     """
     #Display roll_numbers,names,subjects and marks of all students
-    print("========== STUDENT DATA ==========")
+    print("\n========== STUDENT DATA ==========\n")
     print(f"Roll Numbers: {roll_numbers}")
     print(f"Student Names: {names}")
     print(f"subjects: \n{subjects}")
@@ -187,7 +189,8 @@ def explore_dataset(
 
 def calculate_total_marks(
     marks: np.ndarray,
-    names: np.ndarray
+    names: np.ndarray,
+    display: bool = True
 ) -> np.ndarray:
     """
     Calculate and display the total marks obtained by each student.
@@ -208,27 +211,17 @@ def calculate_total_marks(
 
     Displays:
     - Total marks of every student.
-    - Name of the student with the highest total marks.
     """
-    
+    # Calculate the total marks of each student.      
     total_marks = marks.sum(axis=1)
 
-    print("\n========== TOTAL MARKS ==========")
+    # If display is true.
+    if display:
+        print("\n========== TOTAL MARKS ==========\n")
 
-    # Display the total marks of every student.
-    for i in range(len(names)):
-        print(f"{names[i]:<10} : {total_marks[i]}")
-
-    print()
-
-    print("====MAXIMUM MARKS====")
-    # Find the index of the student with the highest total marks.
-    topper = np.argmax(total_marks)
-    # Display the topper's name.
-    print(f"TOPPER: {names[topper]} : {total_marks.max()}\n")
-
-
-
+        # Display the total marks of every student.
+        for i in range(len(names)):
+            print(f"{names[i]:<10} : {total_marks[i]}")
 
     return total_marks
     
@@ -258,7 +251,7 @@ def show_student_marks(
 
     If the student name does not exist in the dataset, an error message is displayed.
     """
-    print("========== STUDENT MARKS ==========")
+    print("\n========== STUDENT MARKS ==========\n")
     
     #Check whether the student exists in the dataset.
     if student_name in names:
@@ -266,7 +259,7 @@ def show_student_marks(
         index = np.where(student_name == names)[0][0]
 
         #using index for getting marks_of_student
-        print("====STUDENT FOUND====\n")
+        print("\n====== STUDENT FOUND ======\n")
         print(f"name of student: {names[index]}\n")
         print(f"marks: {marks[index]}")
 
@@ -361,12 +354,12 @@ def show_student_subject_marks(
     print("\n========== STUDENT SUBJECT MARK ==========\n")
     # Check whether the student exists.
     if student_name not in names:
-        print("\n==== INVALID STUDENT ====")
+        print("\n====== INVALID STUDENT ======")
         return
 
     # Check whether the subject exists
     if subject_name not in subjects:
-        print("\n==== INVALID SUBJECT ====") 
+        print("\n====== INVALID SUBJECT ======") 
         return
    
     # Find the row index of the selected student.
@@ -411,16 +404,16 @@ def show_consecutive_students(
     comes after the end student, an appropriate error message is displayed.
     """
      
-    print("\n======MARKS OF CONSECUTIVE STUDENTS======\n")
+    print("\n====== MARKS OF CONSECUTIVE STUDENTS ======\n")
 
     # Check whether the start_student exists.
     if start_student not in names:
-        print("\n====INVALID START STUDENT====\n")
+        print("\n====== INVALID START STUDENT ======\n")
         return
 
     # Check whether the end_student exists.
     if end_student not in names:
-        print("\n====INVALID END STUDENT====\n")
+        print("\n====== INVALID END STUDENT ======\n")
         return
 
     # Find the index of the first student.
@@ -438,7 +431,7 @@ def show_consecutive_students(
     names_of_students = names[start_student_index : end_student_index +1 ]
     marks_of_students = marks[start_student_index : end_student_index +1 ]
 
-    print("\n====CONSECUTIVE STUDENTS====\n")
+    print("\n======== CONSECUTIVE STUDENTS ========\n")
 
     for i in range(marks_of_students.shape[0]):
         print(f"Student : {names_of_students[i]}")
@@ -482,12 +475,12 @@ def show_subjects_range(
 
     # Check whether the start_subject exists.
     if start_subject_name not in subjects:
-        print("\n====INVALID START SUBJECT====\n")
+        print("\n====== INVALID START SUBJECT ======\n")
         return
 
     # Check whether the end_subject exists.
     if end_subject_name not in subjects:
-        print("\n====INVALID END SUBJECT====\n")
+        print("\n====== INVALID END SUBJECT ======\n")
         return
 
     # Find the index of the first subject.
@@ -561,22 +554,22 @@ def show_consecutive_student_subject_marks(
 
     # Check whether the start_student exists.
     if start_student not in names:
-        print("\n====INVALID START STUDENT====\n")
+        print("\n====== INVALID START STUDENT ======\n")
         return
 
     # Check whether the end_student exists.
     if end_student not in names:
-        print("\n====INVALID END STUDENT====\n")
+        print("\n====== INVALID END STUDENT ======\n")
         return
 
     # Check whether the start_subject exists.
     if start_subject not in subjects:
-        print("\n====INVALID START SUBJECT====\n")
+        print("\n====== INVALID START SUBJECT ======\n")
         return
 
     # Check whether the end_subject exists.
     if end_subject not in subjects:
-        print("\n====INVALID END SUBJECT====\n")
+        print("\n====== INVALID END SUBJECT ======\n")
         return
 
     # Find the index of the first student.
@@ -772,7 +765,7 @@ def show_class_statistics(
         - Variance
     """
     
-    print("\n =====CLASS STATITICS===== \n")
+    print("\n ======= CLASS STATITICS ======= \n")
     # Display total no of students
     print(f"TOTAL STUDENTS: {names.shape[0]}")
     # Display total no of subjects
@@ -791,17 +784,50 @@ def show_class_statistics(
     print(f"VARIANCE: {np.var(marks):.2f}")
 
 
+def show_student_rank(
+    names: np.ndarray,
+    marks: np.ndarray,
+
+) -> None:
+    """
+    Display the ranking of all students based on their total marks.
+
+    Parameters:
+        names (numpy.ndarray):
+            A 1D NumPy array containing the names of all students.
+
+        marks (numpy.ndarray):
+            A 2D NumPy array containing the marks of all students.
+
+    Displays:
+        - Students ranked from highest to lowest based on total marks
+        - Rank number
+        - Student name
+        - Total marks
+
+    Ranking is determined by calculating the total marks of each student
+    and sorting them in descending order.
+    """
+
+    print("\n========== STUDENT RANKING ==========\n")
+    
+    # Reusing the existing function for total marks.
+    student_total = calculate_total_marks(marks,names,display = False)
+
+    # Get student indices sorted by total marks in descending order.
+    ranked_indices = np.argsort(student_total)[::-1]
+
+    # Display the ranking.
+    for rank, index in enumerate(ranked_indices, start=1):
+        print(f"{rank:>2}. {names[index]:<10} : {student_total[index]}")
+
+
+
+
+
     
     
 
-
-
-
-    
-
-
-
-        
 
 
 if __name__ == "__main__":
