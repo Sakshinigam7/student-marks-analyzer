@@ -102,7 +102,9 @@ def main():
     # Display the names of students who have failed in one or more subjects.
     show_failed_students(names,marks)
     # Displays the students whose total marks are above the class average.
-    show_students_above_average(names, marks)
+    show_students_above_average(names,marks)
+    # Displays the students whose total marks are below the class average.
+    show_students_below_average(names,marks)
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -1018,34 +1020,76 @@ def show_students_above_average(
     # Reusing the existing function for total marks.
     student_total = calculate_total_marks(marks,names,display = False)
 
-    # Calculating average 
+    # Calculating class average 
     average_marks = np.mean(student_total)
 
     # Create a Boolean mask for students scoring above the class average.
     above_average_students = student_total > average_marks
 
-    print("\n========== STUDENTS ABOVE AVERAGE ==========\n")
-
-    # Print average
-    print(f"AVERAGE MARKS : {average_marks:.2f}\n")
-    
     # Find indices of above_average_students
     indices = np.where (above_average_students)[0]
+
+    print("\n========== STUDENTS ABOVE AVERAGE ==========\n")
+
+    # Printing class average
+    print(f"AVERAGE MARKS : {average_marks:.2f}\n")
     
     for index in indices:
         print(f"{names[index]:<10} : {student_total[index]}")
 
     print(f"\nTotal Above Average Students : {np.sum(above_average_students)}")
 
+def show_students_below_average(
+    names : np.ndarray,
+    marks : np.ndarray
+) -> None : 
+    """
+    Displays the students whose total marks are below the class average.
+
+    The function calculates the total marks for each student by reusing the
+    existing `calculate_total_marks()` function. It then computes the class
+    average and uses NumPy Boolean indexing to identify students whose total
+    marks are below the average.
+
+    Parameters:
+        names (np.ndarray): A one-dimensional NumPy array containing the
+            names of all students.
+        marks (np.ndarray): A two-dimensional NumPy array where each row
+            represents a student's marks across all subjects.
+
+    Returns:
+        None
+
+    Displays:
+        - The class average of total marks.
+        - The names and total marks of students scoring below the class average.
+        - The total number of students below the class average.
+    """
+
+    # Reusing the existing function for total marks.
+    student_total = calculate_total_marks(marks,names,display = False)
+
+    # Calculating class average
+    average_marks = np.mean(student_total)
+
+    # Create a Boolean mask for students scoring below the class average.
+    below_average_students = average_marks > student_total
+
+    # Find indices of below_average_students
+    indices = np.where (below_average_students)[0]
+
+    print("\n========== STUDENTS BELOW AVERAGE ==========\n")
+
+    # Printing class average
+    print(f"AVERAGE MARKS : {average_marks:.2f}\n")
+
+    for index in indices :
+        print(f"{names[index]:<10} : {student_total[index]}")
+
+    print(f"\nTotal Below Average Students : {np.sum(below_average_students)}")
 
 
 
-
-
-
-
-
-    
 
 
 if __name__ == "__main__":
