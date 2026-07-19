@@ -52,13 +52,13 @@ def main():
     # Subject order:
     # Maths, Physics, Chemistry, English, Computer
     marks = np.array([
-        [95, 91, 88, 93, 97],  # Sakshi
+        [95, 100, 88, 93, 97],  # Sakshi
         [82, 76, 85, 80, 79],  # Aman
         [21, 94, 89, 95, 92],  # Priya
         [68, 72, 70, 66, 34],  # Rahul
-        [98, 96, 97, 99, 100], # Jitesh
+        [98, 96, 100, 99, 100], # Jitesh
         [78, 81, 16, 83, 80],  # Arjun
-        [87, 89, 91, 88, 90],  # Yash
+        [100, 89, 91, 88, 90],  # Yash
         [73, 69, 40, 71, 33],  # Karan
         [64, 67, 65, 70, 68],  # Neha
         [00, 90, 00, 92, 00]   # Riya
@@ -105,6 +105,7 @@ def main():
     show_students_above_average(names,marks)
     # Displays the students whose total marks are below the class average.
     show_students_below_average(names,marks)
+    show_students_with_full_marks(names,marks,subjects)
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -1086,9 +1087,68 @@ def show_students_below_average(
     for index in indices :
         print(f"{names[index]:<10} : {student_total[index]}")
 
-    print(f"\nTotal Below Average Students : {np.sum(below_average_students)}")
+    print(f"\nTotal Below Average Students : {np.sum(below_average_students)}\n")
 
 
+def show_students_with_full_marks(
+    names    : np.ndarray,
+    marks    : np.ndarray,
+    subjects : np.ndarray
+) -> None : 
+    """
+    Displays students who scored full marks in one or more subjects.
+
+    The function checks each student's marks using NumPy Boolean indexing.
+    If a student has scored full marks (100) in any subject, their name
+    and the corresponding subject(s) are displayed.
+
+    Parameters:
+        names (np.ndarray): A one-dimensional NumPy array containing the
+            names of all students.
+        marks (np.ndarray): A two-dimensional NumPy array where each row
+            represents a student's marks across all subjects.
+        subjects (np.ndarray): A one-dimensional NumPy array containing
+            the names of all subjects.
+
+    Returns:
+        None
+
+    Displays:
+        - The names of students who scored full marks.
+        - The subject(s) in which they scored full marks.
+        - The total number of students with at least one full mark.
+    """
+    FULL_MARKS = 100
+
+    total_students = 0
+
+    print("\n========== STUDENTS WITH FULL MARKS ==========\n")
+
+    for i in range(names.shape[0]):
+        student_marks = marks[i]
+
+        # Create a Boolean mask for subjects with full marks.
+        perfect_score_mask = student_marks == FULL_MARKS
+
+        if np.any(perfect_score_mask):
+            total_students += 1
+
+            print(f"{names[i]}")
+            print("-" * len(names[i]))
+            
+            # Find the indices of subjects with perfect scores.
+            subject_indices = np.where(perfect_score_mask)[0]
+
+            for index in subject_indices:
+                print(f"{subjects[index]:<10} : {FULL_MARKS}")
+            
+            print()
+
+    print(f"Total Students with Full Marks : {total_students}")
+            
+
+        
+            
 
 
 
