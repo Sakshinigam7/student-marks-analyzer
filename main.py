@@ -105,7 +105,10 @@ def main():
     show_students_above_average(names,marks)
     # Displays the students whose total marks are below the class average.
     show_students_below_average(names,marks)
+    # Displays students who scored full marks in one or more subjects.
     show_students_with_full_marks(names,marks,subjects)
+    # Displays the students who have failed in one or more subjects.
+    show_failed_subjects(names,marks,subjects)
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -1147,7 +1150,64 @@ def show_students_with_full_marks(
     print(f"Total Students with Full Marks : {total_students}")
             
 
-        
+def show_failed_subjects(
+    names   : np.ndarray,
+    marks   : np.ndarray,
+    subjects: np.ndarray
+) -> None : 
+    """
+    Displays the students who have failed in one or more subjects.
+
+    A student is considered to have failed a subject if their
+    marks are below the passing marks (40). For each such
+    student, the function prints the names of the failed
+    subjects along with their corresponding marks.
+
+    Parameters:
+        names (np.ndarray):
+            A 1D array containing the names of all students.
+
+        marks (np.ndarray):
+            A 2D array containing the marks of each student,
+            where each row represents a student and each
+            column represents a subject.
+
+        subjects (np.ndarray):
+            A 1D array containing the names of all subjects.
+
+    Returns:
+        None
+    """
+    PASSING_MARKS = 40
+
+    total_students = 0
+
+    print("\n========== FAILED SUBJECTS ==========\n")
+
+    for i in range(names.shape[0]): 
+        student_marks = marks[i]
+
+        # Create a Boolean mask for failed subjects.
+        failed_score_mask = student_marks < PASSING_MARKS
+
+        if np.any(failed_score_mask):
+            total_students += 1
+
+            print(f"{names[i]}")
+            print("-" * len(names[i]))
+
+            # Indices of failed subjects. 
+            subject_indices = np.where(failed_score_mask)[0]
+
+            # Print failed subject and marks
+            for index in subject_indices:
+                print(f"{subjects[index]:<10} : {student_marks[index]}")
+            
+            print()
+
+    print(f"Total Students who failed in at least one subject : {total_students}")
+            
+            
             
 
 
