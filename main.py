@@ -109,6 +109,8 @@ def main():
     show_students_with_full_marks(names,marks,subjects)
     # Displays the students who have failed in one or more subjects.
     show_failed_subjects(names,marks,subjects)
+    # Generate a complete report card for a student.
+    generate_student_report(names,roll_numbers,subjects,marks,"Sakshi")
     
 def display_dataset_info(marks: np.ndarray) -> None:
     """
@@ -1151,9 +1153,9 @@ def show_students_with_full_marks(
             
 
 def show_failed_subjects(
-    names   : np.ndarray,
-    marks   : np.ndarray,
-    subjects: np.ndarray
+    names    : np.ndarray,
+    marks    : np.ndarray,
+    subjects : np.ndarray
 ) -> None : 
     """
     Displays the students who have failed in one or more subjects.
@@ -1178,7 +1180,7 @@ def show_failed_subjects(
     Returns:
         None
     """
-    PASSING_MARKS = 40
+    PASS_MARKS = 40
 
     total_students = 0
 
@@ -1188,7 +1190,7 @@ def show_failed_subjects(
         student_marks = marks[i]
 
         # Create a Boolean mask for failed subjects.
-        failed_score_mask = student_marks < PASSING_MARKS
+        failed_score_mask = student_marks < PASS_MARKS
 
         if np.any(failed_score_mask):
             total_students += 1
@@ -1206,7 +1208,122 @@ def show_failed_subjects(
             print()
 
     print(f"Total Students who failed in at least one subject : {total_students}")
-            
+
+
+def generate_student_report(
+    names        : np.ndarray,
+    roll_numbers : np.ndarray,
+    subjects     : np.ndarray,
+    marks        : np.ndarray,
+    student_name : str
+) -> None :
+    """
+    Generate a complete report card for a student.
+
+    Parameters:
+        names (numpy.ndarray):
+            Array containing student names.
+
+        roll_numbers (numpy.ndarray):
+            Array containing student roll numbers.
+
+        subjects (numpy.ndarray):
+            Array containing subject names.
+
+        marks (numpy.ndarray):
+            2D array containing student marks.
+
+        student_name (str):
+            Name of the student whose report is generated.
+
+    Displays:
+        - Student name
+        - Roll number
+        - Subject-wise marks
+        - Total marks
+        - Percentage
+        - Grade
+        - Rank
+        - Pass/Fail status
+    """
+    PASS_MARKS = 40
+    
+    # Check student exists
+    if student_name not in names:
+        print("Student not found.")
+        return
+
+    # Find student index
+    student_index = np.where(names == student_name)[0][0] 
+
+    # Student marks
+    student_marks = marks[student_index]
+
+    # Calculate total and percentage
+    total_marks = np.sum(student_marks)
+
+    # Maximum marks 
+    max_marks = subjects.size * 100
+    
+    # Calculate percentage
+    percentage = (total_marks / max_marks) * 100
+
+    # Grade calculation
+    if percentage >= 90:
+        grade = "A+"
+    elif percentage >= 80:
+        grade = "A"
+    elif percentage >= 70:
+        grade = "B"
+    elif percentage >= 60:
+        grade = "C"
+    elif percentage >= 40:
+        grade = "D"
+    else:
+        grade = "F"
+
+    # Pass/Fail status
+    if np.all(student_marks >= PASS_MARKS):
+        status = "PASS"
+    else: 
+        status = "FAIL"
+
+    # Reusing the existing function for total marks.
+    student_total = calculate_total_marks(marks,names,display = False)
+
+    # Calculate rank
+    ranking = np.argsort(student_total)[::-1]
+
+    rank = np.where(ranking == student_index)[0][0] + 1
+
+    # Display report 
+    print()
+    print("="*35)
+    print(f"{'STUDENT REPORT CARD':^35}")
+    print("="*35)
+
+    print("-"*35)
+
+    print(f"Name        : {names[student_index]}")
+    print(f"ROLL No     : {roll_numbers[student_index]}")
+
+    print("-"*35)
+
+    for index in range(subjects.size):
+        print(f"{subjects[index]:<12}: {student_marks[index]:>3}" )
+
+    print("-"*35)
+
+    print(f"Total       : {total_marks} / {max_marks}")
+    print(f"Percentage  : {percentage:.2f}%")
+    print(f"Grade       : {grade}")
+    print(f"Rank        : {rank}")
+    print(f"Status      : {status}")
+
+    print("-"*35)
+
+    
+
             
             
 
